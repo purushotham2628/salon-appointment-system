@@ -10,8 +10,8 @@ const PORT = 8000;
 
 // Admin credentials (in production, store these securely)
 const ADMIN_CREDENTIALS = {
-    username: 'admin',
-    password: 'salon123' // Change this to a secure password
+    username: 'purush',
+    password: 'purush' // Change this to a secure password
 };
 
 // Store active admin sessions
@@ -191,6 +191,6 @@ setInterval(() => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('Admin credentials:');
-    console.log('Username: admin');
-    console.log('Password: salon123');
+    console.log('Username: purush');
+    console.log('Password: purush');
 });
