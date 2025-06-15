@@ -1,150 +1,129 @@
-# Purush Salon Appointment System
+# 💇‍♂️ Salon Appointment Management System
 
-A complete web-based appointment booking system for men's salons built with HTML, CSS, JavaScript, and Node.js.
+A full-stack web application for booking, managing, and tracking salon appointments, featuring:
 
-## Features
+* 📅 User appointment booking
+* 👨‍💼 Admin login dashboard
+* 📧 Automated email notifications (Booking / Confirmation / Rejection)
+* 🛠 Built using Node.js, Express, SQLite, and vanilla JS
 
-### Customer Features
-- **Modern, Responsive Design**: Clean and professional interface optimized for all devices
-- **Service Showcase**: Display of all available services with images and pricing in Indian Rupees
-- **Easy Booking**: Simple form to book appointments with date and time selection
-- **Real-time Validation**: Form validation to ensure all required information is provided
-- **Professional Images**: High-quality stock photos from Pexels featuring men's grooming
+---
 
-### Admin Features
-- **Dashboard**: Overview of all appointments with statistics
-- **Appointment Management**: View, confirm, or reject appointments
-- **Real-time Updates**: Auto-refresh functionality to stay updated
-- **Status Tracking**: Track appointment status (pending, confirmed, rejected)
+## 🚀 Features
 
-### Services Offered
-- Premium Haircut (₹350)
-- Classic Shave (₹250)
-- Deep Face Cleanse (₹200)
-- Head & Shoulder Massage (₹300)
-- Beard Styling (₹200)
-- Premium Hair Wash (₹150)
+### 👥 User Side
 
-## Technical Stack
+* Book appointments with name, email, phone, date, time, and service
+* Receive confirmation or rejection email
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Backend**: Node.js with Express
-- **Database**: SQLite for data persistence
-- **Styling**: Custom CSS with modern design principles
-- **Images**: Pexels stock photos featuring men's grooming
+### 🛠 Admin Side
 
-## Installation & Setup
+* Secure admin login (with environment variable-based credentials)
+* Dashboard with all appointments (pending, confirmed, rejected)
+* Confirm or reject appointments with 1-click
+* See statistics (total/pending/confirmed)
 
-1. **Prerequisites**: Node.js 14 or higher
+---
 
-2. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
+## 🧰 Tech Stack
 
-3. **Run the Application**:
-   ```bash
-   npm start
-   ```
+* **Backend**: Node.js + Express
+* **Database**: SQLite
+* **Frontend**: HTML, CSS, JavaScript
+* **Email**: Nodemailer with Gmail App Password
 
-4. **Access the Application**:
-   - Customer Interface: http://localhost:8000
-   - Admin Panel: http://localhost:8000/admin
+---
 
-## File Structure
+## 📦 Installation & Setup
 
-```
-purush-salon-system/
-├── server.js             # Node.js backend server
-├── index.html            # Main customer interface
-├── admin.html            # Admin panel
-├── styles.css            # All styling
-├── script.js             # Customer interface JavaScript
-├── admin.js              # Admin panel JavaScript
-├── package.json          # Project dependencies
-├── README.md             # This file
-└── salon.db              # SQLite database (created automatically)
+### 🔧 Prerequisites
+
+* Node.js installed
+* Gmail account with App Password enabled
+
+### 🔌 Clone the project
+
+```bash
+git clone https://github.com/yourusername/salon-appointment-system.git
+cd salon-appointment-system
 ```
 
-## Database Schema
+### 📦 Install dependencies
 
-The system uses SQLite with the following table structure:
-
-```sql
-appointments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    service TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+```bash
+npm install
 ```
 
-## API Endpoints
+### 🔐 Create `.env` file
 
-- `GET /api/appointments` - Retrieve all appointments
-- `POST /api/book` - Book a new appointment
-- `POST /api/confirm` - Confirm an appointment
-- `POST /api/reject` - Reject an appointment
+```env
+EMAIL_USER=yourgmail@gmail.com
+EMAIL_PASS=yourapppassword
+ADMIN_USER=purush
+ADMIN_PASS=purush
+```
 
-## Features in Detail
+### ▶️ Start the server
 
-### Customer Booking Process
-1. Browse available services with pricing in Indian Rupees
-2. Fill out booking form with personal details
-3. Select preferred service, date, and time
-4. Submit appointment request
-5. Receive confirmation message
+```bash
+node server.js
+```
 
-### Admin Management
-1. View dashboard with appointment statistics
-2. Review all appointments with full details
-3. Confirm or reject pending appointments
-4. Track appointment status changes
-5. Auto-refresh for real-time updates
+Visit: [http://localhost:8000](http://localhost:8000)
 
-## Design Features
+---
 
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- **Modern UI**: Clean, professional appearance with smooth animations
-- **Color Scheme**: Professional blue and gray palette
-- **Typography**: Clear, readable fonts with proper hierarchy
-- **Interactive Elements**: Hover effects and smooth transitions
-- **Loading States**: Visual feedback during operations
+## 📂 Folder Structure
 
-## Security Features
+```
+project/
+├── admin.html          # Admin dashboard
+├── index.html          # Booking form UI
+├── admin.js            # Admin logic (login, confirm/reject)
+├── server.js           # Express backend
+├── salon.db            # SQLite database (auto-generated)
+├── .env                # Environment variables (ignored by Git)
+└── .gitignore          # Ignore sensitive/unnecessary files
+```
 
-- Input validation on both client and server side
-- SQL injection prevention through parameterized queries
-- XSS protection through proper data handling
-- CORS headers for secure API access
+---
 
-## Browser Compatibility
+## 📸 Screenshots
 
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
-- Mobile browsers
+(Add screenshots of your booking page & admin panel here if needed)
 
-## Future Enhancements
+---
 
-Potential features for future versions:
-- Email notifications for appointment confirmations
-- SMS reminders
-- Online payment integration
-- Staff scheduling
-- Customer history tracking
-- Loyalty program integration
+## 📬 Email Setup Notes
 
-## Support
+* Use Gmail with **App Passwords** (from [https://myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords))
+* Make sure you **don't push your `.env` file** to GitHub
 
-For technical support or questions about the system, please refer to the code comments or contact the development team.
+---
 
-## License
+## 💡 Future Improvements
 
-This project is open source and available under the MIT License.
+* JWT-based login for admin
+* SMS alerts via Twilio
+* Daily/weekly appointment summary emails
+* Better UI/UX using Tailwind or Bootstrap
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
+
+---
+
+## 📄 License
+
+[MIT](LICENSE)
+
+---
+
+## 🌐 GitHub Project Stats
+
+![GitHub Repo stars](https://img.shields.io/github/stars/yourusername/salon-appointment-system?style=social)
+![GitHub forks](https://img.shields.io/github/forks/yourusername/salon-appointment-system?style=social)
+![Node.js version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)
