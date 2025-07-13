@@ -20,7 +20,7 @@ A full-stack web application for booking, managing, and tracking salon appointme
 
 ## 🧰 Tech Stack
 
-| Layer     | Technology            |
+| Layer     | Technology             |
 |-----------|------------------------|
 | Backend   | Node.js, Express       |
 | Database  | SQLite                 |
@@ -53,7 +53,7 @@ A full-stack web application for booking, managing, and tracking salon appointme
 ### 📦 Installation
 
 ```bash
-git clone https://github.com/yourusername/salon-appointment-system.git
+git clone https://github.com/purushotham2628/salon-appointment-system.git
 cd salon-appointment-system
 npm install
 ```
@@ -149,12 +149,7 @@ This project is licensed under the [MIT License](LICENSE)
 
 ## 📊 GitHub Stats
 
-## 📊 GitHub Stats
-
-## 📊 GitHub Stats
-
 ![GitHub stars](https://img.shields.io/github/stars/purushotham2628/salon-appointment-system?style=social)  
 ![GitHub forks](https://img.shields.io/github/forks/purushotham2628/salon-appointment-system?style=social)  
-![Node.js version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)
+![Node.js version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)  
 ![GitHub issues](https://img.shields.io/github/issues/purushotham2628/salon-appointment-system)
-
