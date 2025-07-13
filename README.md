@@ -149,6 +149,11 @@ This project is licensed under the [MIT License](LICENSE)
 
 ## 📊 GitHub Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/salon-appointment-system?style=social)  
-![GitHub forks](https://img.shields.io/github/forks/yourusername/salon-appointment-system?style=social)  
+## 📊 GitHub Stats
+
+## 📊 GitHub Stats
+
+![GitHub stars](https://img.shields.io/github/stars/purushotham2628/salon-appointment-system?style=social)  
+![GitHub forks](https://img.shields.io/github/forks/purushotham2628/salon-appointment-system?style=social)  
 ![Node.js version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)
+
