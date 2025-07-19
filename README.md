@@ -31,16 +31,28 @@ A full-stack web application for booking, managing, and tracking salon appointme
 
 ## 📸 Screenshots
 
-> 📌 All screenshots are located in the `client/screenshots/` folder.
+> 📌 All screenshots are stored in the `assets/images/` folder.
 
-### 🏠 Home Page
-![Home Page](client/screenshots/home.png)
+### 🏠 Home Page  
+![Home Page](assets/images/home-page.png)
 
-### 📅 Booking Page
-![Booking Form](client/screenshots/booking-form.png)
+### 💈 Services Section  
+![Services](assets/images/services-section.png)
 
-### 🧑‍💼 Admin Panel
-![Admin Dashboard](client/screenshots/admin-panel.png)
+### 📅 Booking Form  
+![Booking Form](assets/images/booking-form.png)
+
+### 🔐 Admin Login  
+![Admin Login](assets/images/admin-login.png)
+
+### 📊 Admin Dashboard  
+![Admin Dashboard](assets/images/admin-dashboard.png)
+
+### 📧 Email - Booking Message  
+![Email Booking Message](assets/images/email-bookingmessage.png)
+
+### ✅ Email - Confirmation Message  
+![Email Confirmed](assets/images/email-confirmed.png)
 
 ---
 
@@ -88,26 +100,25 @@ Then open: [http://localhost:8000](http://localhost:8000)
 ```
 salon-appointment-system/
 ├── client/
-│   ├── screenshots/         # Project screenshots (home.png, etc.)
-│   ├── src/
-│   │   ├── components/
-│   │   ├── contexts/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
 │   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-├── admin.html               # Admin dashboard UI
-├── index.html               # Booking form UI
-├── admin.js                 # Admin dashboard JS logic
-├── script.js                # Client-side booking logic
-├── server.js                # Node.js backend (Express)
-├── salon.db                 # SQLite database (auto-generated)
-├── .env                     # Environment variables
-├── .gitignore               # Git ignore file
-└── README.md                # Project description
+│   ├── styles.css
+│   └── script.js
+├── admin.html
+├── admin.js
+├── server.js
+├── salon.db
+├── .env
+├── .gitignore
+├── README.md
+└── assets/
+    └── images/
+        ├── home-page.png
+        ├── services-section.png
+        ├── booking-form.png
+        ├── admin-login.png
+        ├── admin-dashboard.png
+        ├── email-bookingmessage.png
+        └── email-confirmed.png
 ```
 
 ---
@@ -132,24 +143,11 @@ salon-appointment-system/
 
 ## 🤝 Contributing
 
-Pull requests are welcome!
-
-1. Fork the repository  
-2. Create a feature branch (`feature/your-feature`)  
-3. Commit changes and push  
-4. Open a Pull Request  
+This is a personal project, but contributions are welcome.  
+Feel free to submit issues or pull requests for improvements!
 
 ---
 
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE)
-
----
-
-## 📊 GitHub Stats
-
-![GitHub stars](https://img.shields.io/github/stars/purushotham2628/salon-appointment-system?style=social)  
-![GitHub forks](https://img.shields.io/github/forks/purushotham2628/salon-appointment-system?style=social)  
-![Node.js version](https://img.shields.io/badge/node-%3E=18.0.0-brightgreen)  
-![GitHub issues](https://img.shields.io/github/issues/purushotham2628/salon-appointment-system)
