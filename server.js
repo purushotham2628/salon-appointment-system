@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const path = require('path');
@@ -15,23 +15,23 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// SQLite DB setup
-const db = new sqlite3.Database('./salon.db', (err) => {
-    if (err) return console.error(err.message);
-    console.log('Connected to SQLite DB');
-});
+// SQLite DB setup using better-sqlite3
+const db = new Database('./salon.db');
+console.log('Connected to SQLite DB');
 
-db.run(`CREATE TABLE IF NOT EXISTS appointments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    service TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)`);
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS appointments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        service TEXT NOT NULL,
+        date TEXT NOT NULL,
+        time TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`).run();
 
 // Nodemailer setup
 const transporter = nodemailer.createTransport({
@@ -65,19 +65,21 @@ app.post('/admin-login', (req, res) => {
 
 // Get all appointments
 app.get('/api/appointments', (req, res) => {
-    db.all('SELECT * FROM appointments ORDER BY created_at DESC', [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
+    try {
+        const rows = db.prepare('SELECT * FROM appointments ORDER BY created_at DESC').all();
         res.json(rows);
-    });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Book appointment
 app.post('/api/book', (req, res) => {
     const { name, email, phone, service, date, time } = req.body;
 
-    db.run(`INSERT INTO appointments (name, email, phone, service, date, time) 
-            VALUES (?, ?, ?, ?, ?, ?)`, [name, email, phone, service, date, time], function(err) {
-        if (err) return res.status(500).json({ error: err.message });
+    try {
+        const stmt = db.prepare(`INSERT INTO appointments (name, email, phone, service, date, time) VALUES (?, ?, ?, ?, ?, ?)`);
+        const result = stmt.run(name, email, phone, service, date, time);
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
@@ -98,72 +100,76 @@ app.post('/api/book', (req, res) => {
             else console.log('Booking email sent:', info.response);
         });
 
-        res.json({ success: true, id: this.lastID });
-    });
+        res.json({ success: true, id: result.lastInsertRowid });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Confirm appointment
 app.post('/api/confirm', (req, res) => {
     const { id } = req.body;
 
-    db.get(`SELECT * FROM appointments WHERE id = ?`, [id], (err, row) => {
-        if (err || !row) return res.status(404).json({ success: false });
+    try {
+        const row = db.prepare(`SELECT * FROM appointments WHERE id = ?`).get(id);
+        if (!row) return res.status(404).json({ success: false });
 
-        db.run(`UPDATE appointments SET status = 'confirmed' WHERE id = ?`, [id], function(err) {
-            if (err) return res.status(500).json({ success: false });
+        db.prepare(`UPDATE appointments SET status = 'confirmed' WHERE id = ?`).run(id);
 
-            const mailOptions = {
-                from: process.env.EMAIL_USER,
-                to: row.email,
-                subject: 'Your Appointment is Confirmed',
-                html: `
-                    <h2>Hi ${row.name},</h2>
-                    <p>Your appointment for <strong>${row.service}</strong> on <strong>${row.date}</strong> at <strong>${row.time}</strong> has been <strong>confirmed</strong>.</p>
-                    <p>We look forward to seeing you!</p>
-                    <br><p>– Purush Salon</p>
-                `
-            };
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: row.email,
+            subject: 'Your Appointment is Confirmed',
+            html: `
+                <h2>Hi ${row.name},</h2>
+                <p>Your appointment for <strong>${row.service}</strong> on <strong>${row.date}</strong> at <strong>${row.time}</strong> has been <strong>confirmed</strong>.</p>
+                <p>We look forward to seeing you!</p>
+                <br><p>– Purush Salon</p>
+            `
+        };
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) console.error('Email Error:', error);
-                else console.log('Confirmation email sent:', info.response);
-            });
-
-            res.json({ success: true });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) console.error('Email Error:', error);
+            else console.log('Confirmation email sent:', info.response);
         });
-    });
+
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
 });
 
 // Reject appointment
 app.post('/api/reject', (req, res) => {
     const { id } = req.body;
 
-    db.get(`SELECT * FROM appointments WHERE id = ?`, [id], (err, row) => {
-        if (err || !row) return res.status(404).json({ success: false });
+    try {
+        const row = db.prepare(`SELECT * FROM appointments WHERE id = ?`).get(id);
+        if (!row) return res.status(404).json({ success: false });
 
-        db.run(`UPDATE appointments SET status = 'rejected' WHERE id = ?`, [id], function(err) {
-            if (err) return res.status(500).json({ success: false });
+        db.prepare(`UPDATE appointments SET status = 'rejected' WHERE id = ?`).run(id);
 
-            const mailOptions = {
-                from: process.env.EMAIL_USER,
-                to: row.email,
-                subject: 'Your Appointment Was Rejected',
-                html: `
-                    <h2>Hi ${row.name},</h2>
-                    <p>We regret to inform you that your appointment for <strong>${row.service}</strong> on <strong>${row.date}</strong> at <strong>${row.time}</strong> was <strong>rejected</strong>.</p>
-                    <p>Please try booking another time or contact us directly.</p>
-                    <br><p>– Purush Salon</p>
-                `
-            };
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: row.email,
+            subject: 'Your Appointment Was Rejected',
+            html: `
+                <h2>Hi ${row.name},</h2>
+                <p>We regret to inform you that your appointment for <strong>${row.service}</strong> on <strong>${row.date}</strong> at <strong>${row.time}</strong> was <strong>rejected</strong>.</p>
+                <p>Please try booking another time or contact us directly.</p>
+                <br><p>– Purush Salon</p>
+            `
+        };
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) console.error('Email Error:', error);
-                else console.log('Rejection email sent:', info.response);
-            });
-
-            res.json({ success: true });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) console.error('Email Error:', error);
+            else console.log('Rejection email sent:', info.response);
         });
-    });
+
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
 });
 
 // Fallback route
