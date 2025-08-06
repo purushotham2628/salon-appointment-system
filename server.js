@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const express = require('express');
 const Database = require('better-sqlite3');
 const nodemailer = require('nodemailer');
