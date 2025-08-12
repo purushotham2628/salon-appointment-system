@@ -144,7 +144,7 @@ salon-appointment-system/
 ## 🤝 Contributing
 
 This is a personal project, but contributions are welcome.  
-Feel free to submit issues or pull requests for improvements!
+Feel free to submit issues or pull requests for improvements !
 
 ---
 
